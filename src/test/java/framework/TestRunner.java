@@ -12,12 +12,12 @@ import org.junit.runner.RunWith;
 
         //This create auto method name in camelCase
         snippets = cucumber.api.SnippetType.CAMELCASE,
-        
+
         //Path to your feature file
         features = {"src/test/resources/features"},
 
         // Specify tags to be executed
-        tags = {"@amazon-login"},
+        tags = {"@regressio"},
 
         //Specify step definition package name (Note: make sure to have this package on current directory)
         glue = {"stepdefinition"}

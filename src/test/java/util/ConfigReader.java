@@ -10,11 +10,15 @@ import java.util.Properties;
  */
 public class ConfigReader {
 
-    private String url;
-    private String amazone;
-    private String browser;
+    private String facebook_url;
+    private String amazone_url;
+    private String darksky_url;
+    private String autoComplete_url;
+    private String hotels_url;
 
+    private String browser;
     private String chromeDriverPath;
+    private String geckoDriverPath;
 
     public ConfigReader() {
 
@@ -23,14 +27,18 @@ public class ConfigReader {
 
         try {
             inputStream = new FileInputStream("config.properties");
-
             //load a properties file
             properties.load(inputStream);
 
             //get the property value and print it out
-            this.url = properties.getProperty("url");
-            this.amazone = properties.getProperty("amazon");
+            this.facebook_url = properties.getProperty("facebook_url");
+            this.amazone_url = properties.getProperty("amazon_url");
+            this.darksky_url = properties.getProperty("darksky_url");
+            this.hotels_url = properties.getProperty("hotels_url");
+            this.autoComplete_url = properties.getProperty("autoComplete_url");
+
             this.chromeDriverPath = properties.getProperty("chrome_driver_path");
+            this.geckoDriverPath = properties.getProperty("gecko_driver_path");
             this.browser = properties.getProperty("browser");
         } catch (IOException e) {
             e.printStackTrace();
@@ -45,65 +53,24 @@ public class ConfigReader {
         }
     }
 
-    public String getUrl() {
-        return url;
+    public String getFacebook_url() {
+        return facebook_url;
     }
+    public String getAmazone_url() {
+        return amazone_url;
+    }
+    public String getDarksky_url() { return darksky_url; }
+    public String getAutoComplete_url() { return autoComplete_url; }
+    public String getHotels_url() { return hotels_url; }
 
     public String getBrowser() {
         return browser;
     }
-
-    public String getAmazone() {
-        return amazone;
-    }
-
     public String getChromeDriverPath() {
         return chromeDriverPath;
     }
-
-
-
-
-
-    /*private String url;
-    private String chromeDriverPath;
-
-    public ConfigReader() {
-
-        Properties prop = new Properties();
-        InputStream input = null;
-
-        try {
-
-            input = new FileInputStream("config.properties");
-
-            // load a properties file
-            prop.load(input);
-
-            // get the property value and print it out
-            this.url = prop.getProperty("url");
-            this.chromeDriverPath = prop.getProperty("chrome_driver_path");
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+    public String getGeckoDriverPath() {
+        return geckoDriverPath;
     }
 
-    public String getUrl() {
-
-        return url;
-    }
-
-    public String getChromeDriverPath() {
-
-        return chromeDriverPath;
-    }*/
 }

@@ -141,12 +141,11 @@ public class BasePage {
 
 
 	//  12) to select current date from a  date picker
-	public void selectCurrentDateFromDatePicker(String pattern, By expandDatePicker, By datePicker) throws InterruptedException {
+	public void selectCurrentDateFromDatePicker(String pattern, By datePicker) throws InterruptedException {
 		//SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 		LocalDate date = LocalDate.now();
 		String currentDate = date.format(DateTimeFormatter.ofPattern(pattern));
 
-		elementWithWait(expandDatePicker).click();
 		List<WebElement> days = getDriver().findElements(datePicker);
 		for (WebElement day : days) {
 			String expectedDay = day.getText();
@@ -183,15 +182,14 @@ public class BasePage {
 
 
 	//  16) select an item from AutoComplete menu
-	public void selectFromAutoCompleteMenu(By inputTextFieldLocator, String inputValue, By listLocator, String value) throws InterruptedException {
-
-		sendText(inputTextFieldLocator,inputValue);
-		Thread.sleep(3000);
+	public static String getText = null;
+	public void selectFromAutoCompleteMenu(By listLocator, String value) throws InterruptedException {
 
 		List<WebElement> autoCompleteLists = new ArrayList<>(getDriver().findElements(listLocator));
 		try {
 			for (WebElement listElement : autoCompleteLists){
 				if (listElement.getText().contains(value)){
+					getText = listElement.getText();
 					listElement.click();
 					Thread.sleep(2000);
 					break;
@@ -224,7 +222,7 @@ public class BasePage {
 
 
 	// 18)  To select a custom date from date picker
-	public void selectCustomDateFromDatePicker(String inputDate, By dateInput,By calendarHeader,By nextButton, By dates) throws ParseException {
+	public void selectCustomDateFromDatePicker(String inputDate, By calendarHeader,By nextButton, By dates) throws ParseException {
 		SimpleDateFormat simpleDF = new SimpleDateFormat("MM-dd-yyyy");
 		Date date = simpleDF.parse(inputDate);
 
@@ -236,8 +234,6 @@ public class BasePage {
 		String year = sdfYear.format(date);
 		String monthAndYear = (month+" "+year);
 
-		clickOn(dateInput);
-
 		while(!elementWithWait(calendarHeader).getText().contains(monthAndYear)){
 
 			elementWithWait(nextButton).click();
@@ -248,7 +244,7 @@ public class BasePage {
 
 		for(WebElement element : days){
 			String expectedDate = element.getText();
-			if(expectedDate.equals("20")){
+			if(expectedDate.equals(day)){
 				element.click();
 				break;
 			}
@@ -297,6 +293,36 @@ public class BasePage {
 		WebElement element = elementWithWait(locator);
 		Actions actions = new Actions(getDriver());
 		actions.doubleClick(elementWithWait(locator)).build().perform();
+	}
+
+	//	24)	Get the Title of the page
+	public String getTitle(){
+		return getDriver().getTitle();
+	}
+
+	//	25)	to verify if text/element is clickable or not
+	public boolean isClickable(WebElement element){
+		try{
+			WebDriverWait wait = new WebDriverWait(getDriver(), 6);
+			wait.until(ExpectedConditions.elementToBeClickable(element));
+			return true;
+		}
+		catch (Exception e){
+			return false;
+		}
+	}
+
+	//	26)	to check whether an attribute is present in a tag
+	public boolean isAttribtuePresent(WebElement element, String attribute) {
+		Boolean result = false;
+		try {
+			String value = element.getAttribute(attribute);
+			if (value != null){
+				result = true;
+			}
+		} catch (Exception e) {}
+
+		return result;
 	}
 
 	//	private method for fluentWait
